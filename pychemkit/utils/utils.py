@@ -1,8 +1,6 @@
 import re
 from typing import List
 
-from pychemkit.elements_data import ELEMENTS_DATA
-
 
 def get_query_string(symbol: str, attr: dict) -> str:
     query_str = f"""(
@@ -19,6 +17,7 @@ def get_query_string(symbol: str, attr: dict) -> str:
         {attr['num_shells']}) 
     """
     return query_str
+
 
 def flatten(multi_dim_list: List[List[str]]) -> List[str]:
     flattened = []
@@ -73,7 +72,7 @@ def get_elements_array(formula_str: str) -> []:
     return elems_count_list
 
 
-def populate_columns(table: str, db_instance, data=ELEMENTS_DATA):
+def populate_columns(db_instance, table, data):
     assert isinstance(data, dict)
     for symb, attr in data.items():
         db_instance.insert_value(table, symb, attr)

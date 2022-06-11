@@ -1,7 +1,7 @@
 import re
 from collections import Counter
-from pychemkit.element import Element
-from pychemkit.utils import get_elements_array
+from pychemkit.core.element import Element
+from pychemkit.utils.utils import get_elements_array
 
 
 class Compound:

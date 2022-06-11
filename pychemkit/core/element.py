@@ -1,10 +1,10 @@
-from pychemkit.engine import DBEngine
+import os
+from pychemkit.database.engine import ELEMENTS_DATA
 
 
 class Element:
 
-    elements_db = DBEngine()
-    elements_data = elements_db.elements
+    elements_data = ELEMENTS_DATA.copy(deep=True)
 
     def __init__(self, symbol):
         self._symbol = symbol
@@ -45,5 +45,5 @@ class Element:
 
 
 if __name__ == '__main__':
-    h1 = Element('O')
-    print(h1.electrons)
+    h1 = Element('H')
+    print(h1.symbol)
