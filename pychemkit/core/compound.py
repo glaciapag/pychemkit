@@ -49,3 +49,9 @@ class Compound:
 
     def __str__(self):
         return f'{self._composition}'
+
+
+if __name__ == '__main__':
+    acetic_acid = Compound('CH3CHOOH')
+    print(acetic_acid.mass)
+

@@ -1,4 +1,5 @@
 
+
 ELEMENTS_DATA = {
   "H": {
     "atomic_number": 1,
@@ -1308,7 +1309,7 @@ ELEMENTS_DATA = {
     "type": "transactinide",
     "num_shells": 7
   },
-  "Ds ": {
+  "Ds": {
     "atomic_number": 110,
     "element_name": "Darmstadtium ",
     "atomic_mass": 271.0,
@@ -1320,7 +1321,7 @@ ELEMENTS_DATA = {
     "type": "transactinide",
     "num_shells": 7
   },
-  "Rg ": {
+  "Rg": {
     "atomic_number": 111,
     "element_name": "Roentgenium ",
     "atomic_mass": 272.0,
@@ -1332,7 +1333,7 @@ ELEMENTS_DATA = {
     "type": "transactinide",
     "num_shells": 7
   },
-  "Cn ": {
+  "Cn": {
     "atomic_number": 112,
     "element_name": "Copernicium ",
     "atomic_mass": 285.0,

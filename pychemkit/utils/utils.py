@@ -1,23 +1,19 @@
 import re
-import json
-import pandas as pd
 from typing import List
+from pychemkit.resources.pubchem_data import ELEMENTS_DATA
 
 
 def get_query_string(symbol: str, attr: dict) -> str:
-    query_str = f"""(
-        '{symbol}',
-        {attr['atomic_number']},
-        '{attr['element_name']}',
-        {attr['atomic_mass']},
-        {attr['num_neutrons']},
-        {attr['num_protons']},
-        {attr['num_electrons']},
-        {attr['period']},
-        '{attr['phase']}',
-        '{attr['type']}',
-        {attr['num_shells']}) 
-    """
+    query_items = [f"'{symbol}'"]
+    for key, att in attr.items():
+        if key != 'symbol' and key != 'CPKHexColor':
+            if isinstance(att, str):
+                query_items.append(rf"'{att}'")
+            else:
+                query_items.append(str(att))
+
+    query_str = ', '.join(query_items)
+    query_str = f'({query_str});'
     return query_str
 
 
@@ -70,33 +66,11 @@ def get_elements_array(formula_str: str) -> []:
             elems_count_list.append(res)
 
     elems_count_list = flatten(elems_count_list)
-
     return elems_count_list
 
 
-def populate_columns(db_instance, table, data):
-    assert isinstance(data, dict)
-    for symb, attr in data.items():
-        db_instance.insert_value(table, symb, attr)
+if __name__ == '__main__':
 
+    for symb, attr in ELEMENTS_DATA.items():
+        print(get_query_string(symb, attr))
 
-def transform_pubchem_data(json_filepath):
-
-    elems_map = {}
-
-    with open(json_filepath, 'r') as js:
-        json_obj = json.load(js)
-        cols = json_obj['Table']['Columns']['Column']
-        rows = json_obj['Table']['Row']
-
-        for row in rows:
-            elems_map[row['"Cell'][1]] = row['Cell']
-
-    elems_map_transformed = {}
-    for symb, attr in elems_map.items():
-        attr_map = {}
-        for i, att in enumerate(attr):
-            attr_map[cols[i]] = att
-        elems_map_transformed[symb] = attr_map
-
-    return elems_map_transformed

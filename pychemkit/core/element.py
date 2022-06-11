@@ -14,10 +14,6 @@ class Element:
         self._protons = self.filter_column('num_protons')
         self._neutrons = self.filter_column('num_neutrons')
         self._atomic_mass = self.filter_column('atomic_mass')
-        self._period = self.filter_column('period')
-        self._phase = self.filter_column('phase')
-        self._type = self.filter_column('type')
-        self._num_shells = self.filter_column('num_shells')
 
     def filter_column(self, prop):
         return self.elements_data.loc[self._symbol_filter, prop].values[0]

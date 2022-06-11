@@ -1,20 +1,76 @@
 import sqlite3
 import os
+import sys
+import json
 import pandas as pd
 from sqlalchemy import create_engine
 
-from pychemkit.database.elements_data import ELEMENTS_DATA
 from pychemkit.database import DATABASE_ROOT
-from pychemkit.utils.utils import get_query_string, populate_columns
-from pychemkit.database.queries import *
+from pychemkit.database.queries import PUBCHEM_ELEMENTS_FIELD
+from pychemkit.utils.utils import get_query_string
+from pychemkit.database.queries import Queries
 
 
-class DBEngine:
+class DBQuery:
+
+    def __init__(self, db_name):
+        self._db = DBConn(db_name)
+        self._conn = self._db.conn
+        self._cursor = self._db.cursor
+
+    def create_table(self, table_name, dev=True):
+        try:
+            query_str = f'{Queries.CREATE_TABLE.value} {table_name} {PUBCHEM_ELEMENTS_FIELD}'
+            self._cursor.execute(query_str)
+            print(f'{table_name} table created')
+        except sqlite3.OperationalError as e:
+            if dev:
+                print(f'{table_name} table already exists')
+            else:
+                print(e)
+
+    def insert_value(self, table_name, symbol, attr):
+        values = get_query_string(symbol, attr)
+        query_str = f'{Queries.INSERT_TABLE.value} {table_name} VALUES {values}'
+        try:
+            self._cursor.execute(query_str)
+            self._conn.commit()
+            print(query_str)
+        except sqlite3.OperationalError as e:
+            print(e)
+
+    def get_all_data(self, table_name):
+        with self._conn:
+            query_str = f'{Queries.SELECT_ALL.value} {table_name}'
+            try:
+                elements = pd.read_sql_query(query_str, self._conn)
+                return elements
+            except sqlite3.OperationalError as e:
+                print(e)
+
+    def drop_table(self, table_name):
+        try:
+            query_str = f'{Queries.DROP_TABLE.value} {table_name}'
+            self._cursor.execute(query_str)
+            print(f'{table_name} table deleted')
+        except sqlite3.OperationalError as e:
+            print(f'no such table: {table_name}')
+
+
+class DBConn:
 
     def __init__(self, db_name):
         self._db = db_name
         self._conn = self._create_connection()
         self._cursor = self._conn.cursor()
+
+    @property
+    def cursor(self):
+        return self._cursor
+
+    @property
+    def conn(self):
+        return self._conn
 
     def _create_connection(self):
         root_path = DATABASE_ROOT
@@ -23,52 +79,6 @@ class DBEngine:
         _connection = sqlite3.connect(db_path)
         return _connection
 
-    def create_table(self, table_name, dev=True):
-        try:
-            query_str = f'{CREATE_TABLE} {table_name} {ELEMENTS_FIELD}'
-            self._cursor.execute(query_str)
-            print(f'{table_name} table crated')
-        except sqlite3.OperationalError:
-            if dev:
-                self.drop_table(table_name)
-                print(f'{table_name} table already exists and dropped for development purposes')
-            else:
-                print(f'{table_name} table already exists')
 
-    def insert_value(self, table_name, symbol, attr):
-        values = get_query_string(symbol, attr)
-        query_str = f'{INSERT_TABLE} {table_name} VALUES {values}'
-        print(query_str)
-        self._cursor.execute(query_str)
-
-    def get_all_data(self, table_name):
-        with self._conn:
-            query_str = f'{SELECT_ALL} {table_name}'
-            elements = pd.read_sql_query(query_str, self._conn)
-            return elements
-
-    def drop_table(self, table_name):
-        try:
-            query_str = f'{DROP_TABLE}{table_name}'
-            self._cursor.execute(query_str)
-        except sqlite3.OperationalError:
-            print(f'no such table: {table_name}')
-
-
-def create_and_populate_db(db_name, table_name, data):
-    db = DBEngine(db_name)
-    db.create_table(table_name)
-    populate_columns(db, table_name, data)
-    return db
-
-
-def get_elements_data(db_name, table_name):
-    db = DBEngine(db_name)
-    data = db.get_all_data(table_name)
-    return data
-
-
-ELEMENTS_DATA = get_elements_data('ELEMENTSDB', 'elements')
-
-if __name__ == '__main__':
-    db = DBEngine('ELEMENTSDB')
+db = DBQuery('PUBCHEMDB')
+ELEMENTS_DATA = db.get_all_data('elements')
