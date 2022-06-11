@@ -1,4 +1,6 @@
 import re
+import json
+import pandas as pd
 from typing import List
 
 
@@ -76,3 +78,25 @@ def populate_columns(db_instance, table, data):
     assert isinstance(data, dict)
     for symb, attr in data.items():
         db_instance.insert_value(table, symb, attr)
+
+
+def transform_pubchem_data(json_filepath):
+
+    elems_map = {}
+
+    with open(json_filepath, 'r') as js:
+        json_obj = json.load(js)
+        cols = json_obj['Table']['Columns']['Column']
+        rows = json_obj['Table']['Row']
+
+        for row in rows:
+            elems_map[row['"Cell'][1]] = row['Cell']
+
+    elems_map_transformed = {}
+    for symb, attr in elems_map.items():
+        attr_map = {}
+        for i, att in enumerate(attr):
+            attr_map[cols[i]] = att
+        elems_map_transformed[symb] = attr_map
+
+    return elems_map_transformed

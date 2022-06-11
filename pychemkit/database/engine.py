@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import pandas as pd
+from sqlalchemy import create_engine
 
 from pychemkit.database.elements_data import ELEMENTS_DATA
 from pychemkit.database import DATABASE_ROOT
@@ -68,3 +69,6 @@ def get_elements_data(db_name, table_name):
 
 
 ELEMENTS_DATA = get_elements_data('ELEMENTSDB', 'elements')
+
+if __name__ == '__main__':
+    db = DBEngine('ELEMENTSDB')
