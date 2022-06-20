@@ -1,5 +1,5 @@
 import unittest
-from pychemkit.core.element import Element
+from pychemkit.foundations.element import Element
 
 
 class TestElementMethods(unittest.TestCase):

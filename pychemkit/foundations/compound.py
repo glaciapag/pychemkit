@@ -1,7 +1,7 @@
 import re
-from pychemkit.core.element import Element
+from pychemkit.foundations.element import Element
 from pychemkit.utils.utils import get_elements_array, is_number
-from pychemkit.core.constants import AVOGADRO_NUM
+from pychemkit.foundations.constants import AVOGADRO_NUM
 
 
 class Compound:
@@ -49,10 +49,17 @@ class Compound:
 
         return elems_count_map
 
+    def get_element_percentage(self, element):
+        element = Element(element)
+        compound_mass = self.get_molecular_mass()
+        element_mass = element.atomic_mass
+        return (element_mass / compound_mass) * 100
+
     def __str__(self):
         return f'{self._composition}'
 
 
 if __name__ == '__main__':
-    kclo3 = Compound('KClO3')
-    print(kclo3.parse_formula())
+    cufes2 = Compound('CuFeS2')
+    print(cufes2.get_element_percentage('Fe'))
+

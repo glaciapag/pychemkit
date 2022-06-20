@@ -1,4 +1,5 @@
 from pychemkit.database.engine import ELEMENTS_DATA
+from pychemkit.utils.utils import is_number
 
 
 class Element:
@@ -41,6 +42,12 @@ class Element:
     @property
     def atomic_mass(self):
         return self._atomic_mass
+
+    def get_moles(self, mass):
+        if is_number(mass):
+            return mass / self._atomic_mass
+        else:
+            return 'Enter a valid mass in grams'
 
     def __str__(self):
         return f'{self._symbol}'
