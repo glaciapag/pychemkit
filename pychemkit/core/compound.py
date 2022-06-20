@@ -1,7 +1,7 @@
 import re
-from collections import Counter
 from pychemkit.core.element import Element
-from pychemkit.utils.utils import get_elements_array
+from pychemkit.utils.utils import get_elements_array, is_number
+from pychemkit.core.constants import AVOGADRO_NUM
 
 
 class Compound:
@@ -9,21 +9,29 @@ class Compound:
     def __init__(self, formula_str):
         self._formula = formula_str
         self._composition = self.parse_formula()
-        self._molecular_mass = self.compute_molecular_mass()
 
-    @property
-    def mass(self):
-        return self._molecular_mass
-
-    def compute_molecular_mass(self):
+    def get_molecular_mass(self):
         mass = 0
         for elem, coeff in self._composition.items():
             mass += (elem.atomic_mass * coeff)
         return mass
 
+    def get_moles(self, mass):
+        if is_number(mass):
+            return mass / self.get_molecular_mass()
+        else:
+            return 'Enter a valid mass in grams'
+
+    def get_atoms(self, mass):
+        if is_number(mass):
+            mole = self.get_moles(mass)
+            return mole * AVOGADRO_NUM
+        else:
+            return 'Enter a valid mass in grams'
+
     def parse_formula(self):
         elems_array = get_elements_array(self._formula)
-        elems_count_map_list = []
+        elems_count_map = {}
 
         for elems in elems_array:
             mult = int(elems[0])
@@ -36,22 +44,15 @@ class Compound:
                 coeff = ''
                 num_elems = 1 * mult
             symb = elems[1:].replace(coeff, '')
-            elems_count_map_list.append(symb * num_elems)
+            elem_instance = Element(symb)
+            elems_count_map[elem_instance] = num_elems
 
-        elem_str_coeff_map = Counter(''.join(elems_count_map_list))
-        elems_coeff_map = {}
-
-        for elem, coeff in elem_str_coeff_map.items():
-            elem_instance = Element(elem)
-            elems_coeff_map[elem_instance] = coeff
-
-        return elems_coeff_map
+        return elems_count_map
 
     def __str__(self):
         return f'{self._composition}'
 
 
 if __name__ == '__main__':
-    acetic_acid = Compound('CH3CHOOH')
-    print(acetic_acid.mass)
-
+    kclo3 = Compound('KClO3')
+    print(kclo3.parse_formula())

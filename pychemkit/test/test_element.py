@@ -55,7 +55,9 @@ class TestElementMethods(unittest.TestCase):
             self.assertAlmostEqual(elems.atomic_mass, res[i], 2)
 
     def test_neutrons(self):
-        pass
+        res = [0, 121, 32, 157, 136, 125, 20, 136, 157, 82]
+        for i, elems in enumerate(self.random_elements):
+            self.assertAlmostEqual(elems.neutrons, res[i], delta=4)
 
 
 if __name__ == '__main__':

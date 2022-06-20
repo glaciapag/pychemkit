@@ -69,6 +69,13 @@ def get_elements_array(formula_str: str) -> []:
     return elems_count_list
 
 
+def is_number(num) -> bool:
+    if isinstance(num, float) or isinstance(num, int):
+        return True
+    else:
+        return False
+
+
 if __name__ == '__main__':
 
     for symb, attr in ELEMENTS_DATA.items():
