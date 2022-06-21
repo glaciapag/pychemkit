@@ -52,8 +52,6 @@ class EmpiricalFormula:
                 elems_mole_list.append(str(mole))
         return ''.join(elems_mole_list)
 
-
-
     @staticmethod
     def _get_min_mole_ratio(elem_mol_map):
         smallest_mol = np.min([v for v in elem_mol_map.values()])
@@ -82,6 +80,27 @@ class MolecularFormula(EmpiricalFormula):
     def _get_mass_ratio(self):
         return self._molecular_mass / self.em_mass
 
+    @property
+    def mo_components(self):
+        mo_for = {}
+        for elem, coeff in self.em_components.items():
+            mo_for[elem] = coeff * self._fm_mass_ratio
+        return mo_for
+
+    @property
+    def mo_formula(self):
+        components = self.mo_components
+        elems_mole_list = []
+        for elem, mole in components.items():
+            elems_mole_list.append(elem.symbol)
+            if mole > 1:
+                elems_mole_list.append(str(mole))
+        return ''.join(elems_mole_list)
+
 
 if __name__ == '__main__':
-    ef = MolecularFormula(K=60.1, C=18.4, N=21.5, mass=130.2)
+    elems = 'CHONNa'
+    percentages = [35.51, 4.77, 37.85, 8.29, 13.60]
+    msg = MolecularFormula(elements=elems, percentages=percentages, mass=169)
+    print(msg.em_formula)
+
