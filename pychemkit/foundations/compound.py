@@ -10,6 +10,10 @@ class Compound:
         self._formula = formula_str
         self._composition = self.parse_formula()
 
+    @property
+    def formula(self):
+        return self._formula
+
     def mass_to_moles(self, mass):
         if is_number(mass):
             return mass / self._get_molecular_mass()
@@ -90,13 +94,20 @@ class Compound:
         return elems_count_map
 
     def get_element_percentage(self, element):
-        element = Element(element)
-        compound_mass = self._get_molecular_mass()
-        element_mass = element.atomic_mass
-        return (element_mass / compound_mass) * 100
+        compound_elements = [elem.symbol for elem in list(self._composition.keys())]
+        if element in compound_elements:
+            element = Element(element)
+            compound_mass = self._get_molecular_mass()
+            element_mass = element.atomic_mass
+            return (element_mass / compound_mass) * 100
+        else:
+            return f'{element} is not present in {self._formula}'
 
     def __str__(self):
-        return f'{self._composition}'
+        return f'{self._formula}'
+
+    def __repr__(self):
+        return f'Compound({self._formula})'
 
 
 if __name__ == '__main__':
@@ -104,4 +115,6 @@ if __name__ == '__main__':
     print(water.moles_to_mass(1))
     print(water.mass_to_atoms(18.02))
     print(water.atoms_to_moles(6.022e23))
+    print(water.get_element_percentage('O'))
+    print(water)
 
