@@ -10,21 +10,61 @@ class Compound:
         self._formula = formula_str
         self._composition = self.parse_formula()
 
-    def get_molecular_mass(self):
+    def mass_to_moles(self, mass):
+        if is_number(mass):
+            return mass / self._get_molecular_mass()
+        else:
+            return 'Enter a valid mass in grams'
+
+    def mass_to_atoms(self, mass):
+        if is_number(mass):
+            moles = self._get_moles(mass)
+            atoms = self.moles_to_atoms(moles)
+            return atoms
+        else:
+            return 'Enter a valid mass in grams'
+
+    def moles_to_mass(self, moles):
+        if is_number(moles):
+            return moles * self._get_molecular_mass()
+        else:
+            return 'Enter a valid mole value'
+
+    def moles_to_atoms(self, moles):
+        if is_number(moles):
+            return moles * AVOGADRO_NUM
+        else:
+            return 'Enter a valid mole value'
+
+    def atoms_to_moles(self, atoms):
+        if is_number(atoms):
+            return atoms / AVOGADRO_NUM
+        else:
+            return 'Enter a valid number of atoms'
+
+    def atoms_to_mass(self, atoms):
+        if is_number(atoms):
+            moles = self.atoms_to_moles(atoms)
+            mass = self.moles_to_mass(moles)
+            return mass
+        else:
+            return 'Enter a valid number of atoms'
+
+    def _get_molecular_mass(self):
         mass = 0
         for elem, coeff in self._composition.items():
             mass += (elem.atomic_mass * coeff)
         return mass
 
-    def get_moles(self, mass):
+    def _get_moles(self, mass):
         if is_number(mass):
-            return mass / self.get_molecular_mass()
+            return mass / self._get_molecular_mass()
         else:
             return 'Enter a valid mass in grams'
 
-    def get_atoms(self, mass):
+    def _get_atoms(self, mass):
         if is_number(mass):
-            mole = self.get_moles(mass)
+            mole = self._get_moles(mass)
             return mole * AVOGADRO_NUM
         else:
             return 'Enter a valid mass in grams'
@@ -51,7 +91,7 @@ class Compound:
 
     def get_element_percentage(self, element):
         element = Element(element)
-        compound_mass = self.get_molecular_mass()
+        compound_mass = self._get_molecular_mass()
         element_mass = element.atomic_mass
         return (element_mass / compound_mass) * 100
 
@@ -60,6 +100,8 @@ class Compound:
 
 
 if __name__ == '__main__':
-    cufes2 = Compound('CuFeS2')
-    print(cufes2.get_element_percentage('Fe'))
+    water = Compound('H2O')
+    print(water.moles_to_mass(1))
+    print(water.mass_to_atoms(18.02))
+    print(water.atoms_to_moles(6.022e23))
 

@@ -29,13 +29,13 @@ class EmpiricalFormula:
     @property
     def em_mass(self):
         compound = Compound(self._formula)
-        return compound.get_molecular_mass()
+        return compound._get_molecular_mass()
 
     def _get_components(self):
         elem_percentages_map = {}
         elem_components = {}
         for index, (elem, coeff) in enumerate(self._compound.parse_formula().items()):
-            mole = elem.get_moles(coeff * self._normalized_percentages[index])
+            mole = elem._get_moles(coeff * self._normalized_percentages[index])
             elem_percentages_map[elem] = mole
 
         mole_ratio = self._get_min_mole_ratio(elem_percentages_map)
