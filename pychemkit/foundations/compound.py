@@ -14,6 +14,10 @@ class Compound:
     def formula(self):
         return self._formula
 
+    @property
+    def composition(self):
+        return self._composition
+
     def mass_to_moles(self, mass):
         if is_number(mass):
             return mass / self._get_molecular_mass()
@@ -111,10 +115,6 @@ class Compound:
 
 
 if __name__ == '__main__':
-    water = Compound('H2O')
-    print(water.moles_to_mass(1))
-    print(water.mass_to_atoms(18.02))
-    print(water.atoms_to_moles(6.022e23))
-    print(water.get_element_percentage('O'))
-    print(water)
+    nacl2 = Compound('NaCl')
+    print(nacl2.composition)
 
