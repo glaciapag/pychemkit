@@ -79,7 +79,9 @@ class Compound:
 
     def parse_formula(self):
         elems_array = get_elements_array(self._formula)
+        elems_count_list = []
         elems_count_map = {}
+        elementified_map = {}
 
         for elems in elems_array:
             mult = int(elems[0])
@@ -92,10 +94,16 @@ class Compound:
                 coeff = ''
                 num_elems = 1 * mult
             symb = elems[1:].replace(coeff, '')
-            elem_instance = Element(symb)
-            elems_count_map[elem_instance] = num_elems
+            elems_count_list.append([symb, num_elems])
 
-        return elems_count_map
+        for elem in elems_count_list:
+            elems_count_map[elem[0]] = elems_count_map.get(elem[0], 0) + elem[1]
+
+        for elem, coeff in elems_count_map.items():
+            elem_instance = Element(elem)
+            elementified_map[elem_instance] = coeff
+
+        return elementified_map
 
     def get_element_percentage(self, element):
         compound_elements = [elem.symbol for elem in list(self._composition.keys())]
@@ -115,6 +123,10 @@ class Compound:
 
 
 if __name__ == '__main__':
-    nacl2 = Compound('NaCl')
-    print(nacl2.composition)
+    comp = Compound('CH3COOH')
+    print(comp.composition)
+    print(comp.get_element_percentage('C'))
+
+
+
 
