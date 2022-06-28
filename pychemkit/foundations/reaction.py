@@ -30,11 +30,54 @@ class SimpleChemicalReaction:
 
     @property
     def reactants(self):
-        return {comp.formula: coeff for comp, coeff in self._reactants.items()}
+        return {comp: coeff for comp, coeff in self._reactants.items()}
 
     @property
     def products(self):
-        return {comp.formula: coeff for comp, coeff in self._products.items()}
+        return {comp: coeff for comp, coeff in self._products.items()}
+
+    def get_reactant_elements(self):
+        return self._get_elements(self._reactants)
+
+    def get_product_elements(self):
+        return self._get_elements(self._products)
+
+    def balance(self):
+        reactants = self.get_reactant_elements()
+        products = self.get_product_elements()
+
+        react_weights = 0
+        prod_weights = 0
+
+        for elem, w in reactants.items():
+            react_weights += (w['subs'] * w['coeff'])
+
+        for elem, w in products.items():
+            prod_weights += (w['subs'] * w['coeff'])
+
+        if react_weights == prod_weights:
+            return 'Balanced'
+        else:
+            diff = react_weights - prod_weights
+            new_coeffs = {}
+            if diff > 0:
+                for elem, w in products.items():
+                    if w['subs'] * w['coeff'] != diff:
+                        new_coeffs[elem] = {
+                            'subs': w['subs'],
+                            'coeff': w['coeff'] * diff
+                        }
+                    else:
+                        pass
+            return 'Not balanced'
+
+    @staticmethod
+    def _get_elements(component):
+        elem_list = {}
+        for comp, coeff in component.items():
+            for elem, amt in comp.composition.items():
+                elem_list[elem] = {'subs': amt, 'coeff': coeff}
+        return elem_list
 
     @staticmethod
     def _stringify_reaction(comp_list, coeff_list):
@@ -83,8 +126,7 @@ class SimpleChemicalReaction:
 if __name__ == '__main__':
 
     nacl_formation2 = SimpleChemicalReaction(
-        reactants=['2Na', 'Cl2'],
-        products=['2NaCl']
+        reactants=['Na', 'Cl2'],
+        products=['NaCl']
     )
-
-    print(nacl_formation2.reactants)
+    print(nacl_formation2.balance())
