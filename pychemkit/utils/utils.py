@@ -133,6 +133,13 @@ def listify_strings(str_list_input: Union[str, List[str]]) -> List[str]:
         return str_list_input
 
 
+def determine_sign(amount, participation):
+    if participation == 'product':
+        return amount * -1
+    else:
+        return amount
+
+
 if __name__ == '__main__':
 
     print(separate_compound_coeff(['2H2', 'O2', '2H2O']))
