@@ -125,8 +125,12 @@ class SimpleChemicalReaction:
 
 if __name__ == '__main__':
 
-    nacl_formation2 = SimpleChemicalReaction(
-        reactants=['Na', 'Cl2'],
-        products=['NaCl']
+    reaction1 = SimpleChemicalReaction(
+        reactants=['KNO3', 'C'],
+        products=['K2CO3', 'CO', 'N2']
     )
-    print(nacl_formation2.balance())
+
+    react_elems = reaction1.get_reactant_elements()
+    prod_elems = reaction1.get_product_elements()
+    reactants = reaction1.reactants
+    products = reaction1.products
