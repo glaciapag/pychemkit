@@ -1,5 +1,8 @@
+import pandas as pd
+import numpy as np
+
 from pychemkit.foundations.compound import Compound
-from pychemkit.utils.utils import separate_compound_coeff, listify_strings
+from pychemkit.utils.utils import separate_compound_coeff, listify_strings, determine_sign
 
 
 class SimpleChemicalReaction:
@@ -36,15 +39,24 @@ class SimpleChemicalReaction:
     def products(self):
         return {comp: coeff for comp, coeff in self._products.items()}
 
-    def get_reactant_elements(self):
-        return self._get_elements(self._reactants)
+    def get_elements_list(self):
+        return [el for el in self.get_all_reactants_elements().keys()]
 
-    def get_product_elements(self):
-        return self._get_elements(self._products)
+    def get_all_reactants_elements(self):
+        return self._get_elements_per_participants(self._reactants)
+
+    def get_all_products_elements(self):
+        return self._get_elements_per_participants(self._products)
+
+    def get_reactant_elements_per_compound(self):
+        return self._get_elements_per_compound(self._reactants)
+
+    def get_product_elements_per_compound(self):
+        return self._get_elements_per_compound(self._products)
 
     def balance(self):
-        reactants = self.get_reactant_elements()
-        products = self.get_product_elements()
+        reactants = self.get_reactant_elements_per_compound()
+        products = self.get_product_elements_per_compound()
 
         react_weights = 0
         prod_weights = 0
@@ -72,12 +84,20 @@ class SimpleChemicalReaction:
             return 'Not balanced'
 
     @staticmethod
-    def _get_elements(component):
+    def _get_elements_per_participants(component):
         elem_list = {}
         for comp, coeff in component.items():
             for elem, amt in comp.composition.items():
-                elem_list[elem] = {'subs': amt, 'coeff': coeff}
+                elem_list[elem.symbol] = coeff * amt
         return elem_list
+
+    @staticmethod
+    def _get_elements_per_compound(component):
+        comp_list = [item for item in component.items()]
+        elem_per_cpd = {}
+        for comp in comp_list:
+            elem_per_cpd[comp[0]] = {el.symbol: coeff for el, coeff in comp[0].composition.items()}
+        return elem_per_cpd
 
     @staticmethod
     def _stringify_reaction(comp_list, coeff_list):
@@ -122,6 +142,31 @@ class SimpleChemicalReaction:
     def __str__(self):
         return f'{self._stringify_reaction(self._reactants, self._react_coeff)} ==> {self._stringify_reaction(self._products, self._prod_coeff)}'
 
+    def create_compound_matrix(self):
+        reacts = self.get_reactant_elements_per_compound()
+        prods = self.get_product_elements_per_compound()
+        all_elems = self.get_elements_list()
+        compound_matrix = []
+
+        for comp, elems_coeff in reacts.items():
+            for elem in all_elems:
+                if elem in comp.formula:
+                    compound_matrix.append(['reactant', comp, elem, elems_coeff[elem]])
+                else:
+                    compound_matrix.append(['reactant', comp, elem, 0])
+
+        for comp, elems_coeff in prods.items():
+            for elem in all_elems:
+                if elem in comp.formula:
+                    compound_matrix.append(['product', comp, elem, elems_coeff[elem]])
+                else:
+                    compound_matrix.append(['product', comp, elem, 0])
+
+        matrix = pd.DataFrame(data=compound_matrix, columns=['role', 'compound', 'element', 'amount'])
+        matrix['amount'] = np.vectorize(determine_sign)(matrix['amount'], matrix['role'])
+        matrix_pivot = matrix.pivot(index='element', columns='compound', values='amount')
+        return matrix_pivot.reset_index()
+
 
 if __name__ == '__main__':
 
@@ -130,7 +175,12 @@ if __name__ == '__main__':
         products=['K2CO3', 'CO', 'N2']
     )
 
-    react_elems = reaction1.get_reactant_elements()
-    prod_elems = reaction1.get_product_elements()
-    reactants = reaction1.reactants
-    products = reaction1.products
+    reaction2 = SimpleChemicalReaction(
+        reactants=['Na', 'Cl2'],
+        products=['NaCl']
+    )
+
+    df = reaction1.create_compound_matrix()
+    df2 = reaction2.create_compound_matrix()
+
+    print(df)
