@@ -1,8 +1,11 @@
 # Pychemkit
----
-### A python package for chemistry calculations (Work-in-progress)
 
-## Elements
+---
+### A simple python package for general chemistry calculations and modelling (Work-in-progress)
+
+---
+## Foundations
+
 
 ### Initialize an element instance
 ```python
@@ -49,4 +52,16 @@ elems = 'CHONNa'
 percentages = [35.51, 4.77, 37.85, 8.29, 13.60]
 msg = MolecularFormula(elements=elems, percentages=percentages, mass=169)
 print(msg.em_formula)
+```
+
+---
+## Installation
+
+You can clone this repo for now, but in the future, I am looking forward to publish this as a package.
+
+```commandline
+$ mkdir dirname 
+$ cd dirname 
+$ git clone https://github.com/glaciapag/pychemkit.git .
+$ conda create --name <env> --file requirements.txt 
 ```
