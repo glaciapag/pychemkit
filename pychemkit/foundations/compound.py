@@ -123,9 +123,10 @@ class Compound:
 
 
 if __name__ == '__main__':
-    comp = Compound('CH3COOH')
-    print(comp.composition)
-    print(comp.get_element_percentage('C'))
+    glucose = Compound('C6H12O6')
+    print(glucose.composition)
+    print(glucose.mass_to_moles(200))
+    print(glucose.moles_to_mass(2.5))
 
 
 

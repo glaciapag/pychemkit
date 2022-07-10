@@ -57,14 +57,34 @@ class SimpleChemicalReaction:
     def get_product_elements_per_compound(self):
         return self._get_elements_per_compound(self._products)
 
-    # TODO
     def balance(self):
         reactants = self.get_reactant_elements_per_compound()
         products = self.get_product_elements_per_compound()
 
         react_weights = 0
         prod_weights = 0
-        return 0
+
+        for elem, w in reactants.items():
+            react_weights += (w['subs'] * w['coeff'])
+
+        for elem, w in products.items():
+            prod_weights += (w['subs'] * w['coeff'])
+
+        if react_weights == prod_weights:
+            return 'Balanced'
+        else:
+            diff = react_weights - prod_weights
+            new_coeffs = {}
+            if diff > 0:
+                for elem, w in products.items():
+                    if w['subs'] * w['coeff'] != diff:
+                        new_coeffs[elem] = {
+                            'subs': w['subs'],
+                            'coeff': w['coeff'] * diff
+                        }
+                    else:
+                        pass
+            return 'Not balanced'
 
     @staticmethod
     def _get_elements_per_participants(component):
