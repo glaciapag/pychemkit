@@ -16,6 +16,12 @@ class Element:
         self._neutrons = self.filter_column('num_neutrons')
         self._atomic_mass = self.filter_column('atomic_mass')
 
+    def __eq__(self, other):
+        return self.symbol == other.symbol
+
+    def __hash__(self):
+        return hash(str(self))
+
     def filter_column(self, prop):
         return self.elements_data.loc[self._symbol_filter, prop].values[0]
 
@@ -54,3 +60,9 @@ class Element:
 
     def __repr__(self):
         return f"Element('{self._symbol}')"
+
+
+if __name__ == '__main__':
+    h1 = Element('H')
+    h2 = Element('H')
+    print(h1 == h2)
