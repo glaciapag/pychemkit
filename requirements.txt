@@ -43,7 +43,7 @@ jupyter=1.0.0=py39h6e9494a_7
 jupyter_client=7.3.1=pyhd8ed1ab_0
 jupyter_console=6.4.3=pyhd8ed1ab_0
 jupyter_core=4.10.0=py39h6e9494a_0
-jupyterlab=2.1.0=py_0
+jupyterlab>=2.2.10
 jupyterlab_pygments=0.2.2=pyhd8ed1ab_0
 jupyterlab_server=1.0.9=py_0
 jupyterlab_widgets=1.1.0=pyhd8ed1ab_0
