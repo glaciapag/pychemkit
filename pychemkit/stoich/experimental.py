@@ -4,7 +4,7 @@ from pychemkit.foundations.compound import Compound
 
 class EmpiricalFormula:
 
-    def __init__(self, elements=None, percentages=None, **kwargs):
+    def __init__(self, elements=None, percentages=None, normalized=False, **kwargs):
         if not kwargs:
             self._compound = self._instantiate_compound(elements)
             self._percentages = percentages
@@ -17,6 +17,11 @@ class EmpiricalFormula:
         self._normalized_percentages = [(p / self._total_compound_mass) * 100 for p in self._percentages]
         self._components = self._get_components()
         self._formula = self._get_formula()
+
+        if normalized:
+            self._percentages = self._normalized_percentages
+        else:
+            self._percentages = self._percentages
 
     @property
     def em_components(self):
@@ -35,7 +40,7 @@ class EmpiricalFormula:
         elem_percentages_map = {}
         elem_components = {}
         for index, (elem, coeff) in enumerate(self._compound.parse_formula().items()):
-            mole = elem._get_moles(coeff * self._normalized_percentages[index])
+            mole = (coeff * self._percentages[index]) / elem.atomic_mass
             elem_percentages_map[elem] = mole
 
         mole_ratio = self._get_min_mole_ratio(elem_percentages_map)
@@ -55,8 +60,14 @@ class EmpiricalFormula:
     @staticmethod
     def _get_min_mole_ratio(elem_mol_map):
         smallest_mol = np.min([v for v in elem_mol_map.values()])
-        moles = [int(np.round((e / smallest_mol), 0)) for e in elem_mol_map.values()]
-        return moles
+        moles = [np.round((e / smallest_mol), 0) for e in elem_mol_map.values()]
+        mole_fraction = [mol.as_integer_ratio() for mol in moles]
+        for mole in mole_fraction:
+            if mole[1] != 1:
+                mult = mole[1]
+            else:
+                mult = 1
+        return [int(mol * mult) for mol in moles]
 
     @staticmethod
     def _instantiate_compound(elements):
@@ -99,8 +110,9 @@ class MolecularFormula(EmpiricalFormula):
 
 
 if __name__ == '__main__':
-    elems = 'CHONNa'
-    percentages = [35.51, 4.77, 37.85, 8.29, 13.60]
-    msg = MolecularFormula(elements=elems, percentages=percentages, mass=169)
-    print(msg.em_formula)
+    elems = ['H', 'C', 'Cl']
+
+    percentages = [4.07, 24.27, 71.65]
+    msg = MolecularFormula(elements=elems, percentages=percentages, normalized=True, mass=98.96)
+    print(msg.mo_components)
 
