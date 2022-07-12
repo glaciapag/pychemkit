@@ -1,6 +1,6 @@
 import re
 from pychemkit.foundations.element import Element
-from pychemkit.utils.utils import get_elements_array, is_number
+from pychemkit.utils.utils import get_elements_array, is_number, get_percentage
 from pychemkit.foundations.constants import AVOGADRO_NUM
 
 
@@ -106,12 +106,13 @@ class Compound:
         return elementified_map
 
     def get_element_percentage(self, element):
-        compound_elements = [elem.symbol for elem in list(self._composition.keys())]
+        element = Element(element)
+        coeff = self.composition.get(element)
+        compound_elements = [elem for elem in list(self._composition.keys())]
         if element in compound_elements:
-            element = Element(element)
             compound_mass = self._get_molecular_mass()
-            element_mass = element.atomic_mass
-            return (element_mass / compound_mass) * 100
+            element_mass = element.atomic_mass * coeff
+            return get_percentage(element_mass, compound_mass)
         else:
             return f'{element} is not present in {self._formula}'
 
@@ -123,10 +124,9 @@ class Compound:
 
 
 if __name__ == '__main__':
-    glucose = Compound('C6H12O6')
-    print(glucose.composition)
-    print(glucose.mass_to_moles(200))
-    print(glucose.moles_to_mass(2.5))
+    acetic_acid = Compound('CH3COOH')
+    print(acetic_acid.composition)
+    print(acetic_acid.get_element_percentage('H'))
 
 
 

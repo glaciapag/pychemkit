@@ -140,6 +140,10 @@ def determine_sign(amount, participation):
         return amount
 
 
+def get_percentage(x, y):
+    return x / y * 100
+
+
 if __name__ == '__main__':
 
     print(separate_compound_coeff(['2H2', 'O2', '2H2O']))
