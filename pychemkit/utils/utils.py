@@ -1,5 +1,10 @@
 import re
+from fractions import Fraction
 from typing import List, Dict, Union
+
+import sympy as sp
+import numpy as np
+import pandas as pd
 
 
 def get_query_string(symbol: str, attr: Dict) -> str:
@@ -144,8 +149,43 @@ def get_percentage(x, y):
     return x / y * 100
 
 
-if __name__ == '__main__':
+def solve_equation(rm: pd.DataFrame) -> List[Fraction]:
+    mat = rm.iloc[:, 1:].to_numpy()
+    mat = sp.Matrix(mat)
+    solutions = list(sp.linsolve(mat).args[0])
 
-    print(separate_compound_coeff(['2H2', 'O2', '2H2O']))
+    coefficients = []
+    factors = []
+
+    try:
+        for sol in solutions:
+            frac = Fraction(sol)
+            if frac.denominator != 1:
+                factor = frac.denominator
+                factors.append(factor)
+                coefficients.append(sol)
+            else:
+                coefficients.append(sol)
+    except TypeError:
+        return 'The reaction is infeasible'
+
+    if len(factors) <= 0:
+        factor = 1
+    elif len(factors) == 1:
+        factor = factors[0]
+    elif len(factors) == 2:
+        factor = np.lcm(factors[0], factors[1])
+    elif len(factors) > 2:
+        factor = np.lcm.reduce(factors)
+
+    coefficients = [abs(f * factor) for f in coefficients]
+    coefficients.append(factor)
+
+    return coefficients
+
+
+if __name__ == '__main__':
+    pass
+
 
 

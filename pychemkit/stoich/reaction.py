@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from pychemkit.foundations.compound import Compound
-from pychemkit.utils.utils import separate_compound_coeff, listify_strings, determine_sign
+from pychemkit.utils.utils import separate_compound_coeff, listify_strings, determine_sign, solve_equation
 
 
 class SimpleChemicalReaction:
@@ -59,12 +59,9 @@ class SimpleChemicalReaction:
 
     # TODO
     def balance(self):
-        reactants = self.get_reactant_elements_per_compound()
-        products = self.get_product_elements_per_compound()
+        eq_mat = self.create_reaction_matrix()
+        return solve_equation(eq_mat)
 
-        react_weights = 0
-        prod_weights = 0
-        return 0
 
     @staticmethod
     def _get_elements_per_participants(component):
@@ -159,11 +156,21 @@ if __name__ == '__main__':
     )
 
     reaction2 = SimpleChemicalReaction(
-        reactants=['Na', 'Cl2'],
-        products=['NaCl']
+        reactants=['C6H6', 'O2'],
+        products=['CO2', 'H2O']
     )
 
-    df = reaction1.create_reaction_matrix()
-    df2 = reaction2.create_reaction_matrix()
+    reaction3 = SimpleChemicalReaction(
+        reactants=['Al', 'O2'],
+        products=['Al2O3']
+    )
 
-    print(df)
+    reaction4 = SimpleChemicalReaction(
+        reactants=['N2', '3H2'],
+        products=['2NH3']
+    )
+
+    print(reaction1.balance())
+    print(reaction2.balance())
+    print(reaction3.balance())
+    print(reaction4.balance())
