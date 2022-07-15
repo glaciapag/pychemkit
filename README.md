@@ -2,7 +2,7 @@
 
 ---
 
-### A simple python package for general chemistry calculations and modelling (Work-in-progress)
+### A simple python package for general chemistry calculations and modeling 
 
 ---
 
@@ -80,4 +80,10 @@ $ mkdir dirname
 $ cd dirname
 $ git clone https://github.com/glaciapag/pychemkit.git .
 $ pip install -e .
+```
+
+## Testing
+```commandline
+$ cd test
+$ python -m unittest
 ```
