@@ -1,11 +1,11 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: osx-64
-beautifulsoup4=4.11.1=pyha770c72_0
-flask=2.1.2=pyhd8ed1ab_1
-numpy=1.22.4=py39h677350a_0
-pandas=1.4.2=py39hf72b562_2
-pip=22.1.1=pyhd8ed1ab_0
-python=3.9.12=ha188027_102
-scipy=1.8.1=py39hfa1a3ab_0
-sqlalchemy=1.4.36=py39h701faf5_0
+beautifulsoup4=4.11.1
+flask=2.1.2
+numpy=1.22.4
+pandas=1.4.2
+pip=22.1.1
+python=3.9.12
+scipy=1.8.1
+sqlalchemy=1.4.36
