@@ -1,13 +1,15 @@
 # Pychemkit
 
 ---
+
 ### A simple python package for general chemistry calculations and modelling (Work-in-progress)
 
 ---
+
 ## Foundations
 
-
 ### Initialize an element instance
+
 ```python
 from pychemkit.foundations.element import Element
 
@@ -16,8 +18,8 @@ print(hydrogen.atomic_mass) # 1.001
 print(hydrogen.electrons) # 1
 ```
 
-
 ### Initialize compounds
+
 ```python
 from pychemkit.foundations.compound import Compound
 
@@ -27,6 +29,7 @@ print(acetic_acid.get_element_percentage('C')) # 20.000
 ```
 
 ### Some Basic stoichiometric calculations
+
 ```python
 from pychemkit.foundations.compound import Compound
 
@@ -45,6 +48,7 @@ print(grams_glucose) # 450.39
 ```
 
 ### Calculating Empirical and Molecular Formulas
+
 ```python
 from pychemkit.stoich.experimental import EmpiricalFormula, MolecularFormula
 
@@ -54,14 +58,26 @@ msg = MolecularFormula(elements=elems, percentages=percentages, mass=169)
 print(msg.em_formula)
 ```
 
+### Balancing Chemical Equation
+
+```python
+from pychemkit.stoich.reaction import SimpleChemicalReaction
+
+water_formation = SimpleChemicalReaction(
+    reactants=['H2', 'O2'],
+    products=['H2O']
+)
+
+print(water_formation.balance()) # [1, 2, 2]
+```
+
 ---
+
 ## Installation
 
-You can clone this repo for now, but in the future, I am looking forward to publish this as a package.
-
 ```commandline
-$ mkdir dirname 
-$ cd dirname 
+$ mkdir dirname
+$ cd dirname
 $ git clone https://github.com/glaciapag/pychemkit.git .
-$ conda create --name <env> --file requirements.txt 
+$ pip install -e .
 ```
