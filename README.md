@@ -2,13 +2,13 @@
 
 ---
 
-### A simple python package for general chemistry calculations and modeling 
+### A simple python package for general chemistry calculations and modeling
 
 ---
 
 ## Foundations
 
-### Initialize an element instance
+### Elements
 
 ```python
 from pychemkit.foundations.element import Element
@@ -18,7 +18,7 @@ print(hydrogen.atomic_mass) # 1.001
 print(hydrogen.electrons) # 1
 ```
 
-### Initialize compounds
+### Compounds
 
 ```python
 from pychemkit.foundations.compound import Compound
@@ -28,7 +28,7 @@ print(acetic_acid.composition) # {Element('C'): 2, Element('H'): 4, Element('O')
 print(acetic_acid.get_element_percentage('C')) # 20.000
 ```
 
-### Some Basic stoichiometric calculations
+### Basic stoichiometric calculations
 
 ```python
 from pychemkit.foundations.compound import Compound
@@ -75,14 +75,30 @@ print(water_formation.balance()) # [1, 2, 2]
 
 ## Installation
 
+### Mac/Linux
+
 ```commandline
 $ mkdir dirname
 $ cd dirname
+$ python3 -m venv env
+$ source env/bin/activate
+$ git clone https://github.com/glaciapag/pychemkit.git .
+$ pip install -e .
+```
+
+### Windows
+
+```powershell
+$ mkdir dirname
+$ cd dirname
+$ python -m venv env
+$ env\Scripts\activate.bat
 $ git clone https://github.com/glaciapag/pychemkit.git .
 $ pip install -e .
 ```
 
 ## Testing
+
 ```commandline
 $ cd test
 $ python -m unittest
