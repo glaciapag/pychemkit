@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Union
 from pychemkit.foundations.compound import Compound
 
 
@@ -109,10 +110,22 @@ class MolecularFormula(EmpiricalFormula):
         return ''.join(elems_mole_list)
 
 
-if __name__ == '__main__':
-    elems = ['H', 'C', 'Cl']
+class AqueousSolution:
 
-    percentages = [4.07, 24.27, 71.65]
-    msg = MolecularFormula(elements=elems, percentages=percentages, normalized=True, mass=98.96)
-    print(msg.mo_components)
+    def __init__(self, cpd_instance: Union[str, Compound]):
+        if isinstance(cpd_instance, str):
+            self._compound = Compound(cpd_instance)
+        elif isinstance(cpd_instance, Compound):
+            self._compound = cpd_instance
+
+    def get_molar_concentration(self, grams, liters):
+        cpd_mole = self._compound.mass_to_moles(grams)
+        return cpd_mole / liters
+
+if __name__ == '__main__':
+    ethanol = Compound('C2H5OH')
+    sol = AqueousSolution(ethanol)
+    print(sol.get_molar_concentration(2.30, 3.50))
+
+
 
