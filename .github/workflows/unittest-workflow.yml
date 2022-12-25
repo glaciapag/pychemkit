@@ -17,7 +17,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Clean-up for operation was cancelled bug https://github.com/vmware/concord-bft/pull/994
-      - run: |
+        run: |
           sudo rm -rf /ust/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf "/usr/local/share/boost"
