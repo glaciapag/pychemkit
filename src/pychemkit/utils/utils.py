@@ -79,7 +79,8 @@ def get_elements_array(formula_str: str) -> List[str]:
             multiplier = get_coeff_multiplier(res)
 
             res = [f'{multiplier}{r}' for r in res]
-            res = [r.replace(f'){multiplier}', '') if multiplier > 1 else r.replace(')', '') for r in res]
+            res = [r.replace(f'){multiplier}', '') if multiplier > 1 else r.replace(
+                ')', '') for r in res]
             elems_count_list.append(res)
 
     for elems in elems_outside_parens:
@@ -121,7 +122,8 @@ def separate_compound_coeff(compound_list: List[str]) -> Dict:
 
         if res:
             coeff = int(res[0])
-            cpd = compound.replace(f'{coeff}', '', 1)  # Replace the first occurence of the integer coeff with nothing
+            # Replace the first occurence of the integer coeff with nothing
+            cpd = compound.replace(f'{coeff}', '', 1)
         else:
             coeff = 1
             cpd = compound
@@ -182,10 +184,3 @@ def solve_equation(rm: pd.DataFrame) -> List[Fraction]:
     coefficients.append(factor)
 
     return coefficients
-
-
-if __name__ == '__main__':
-    pass
-
-
-

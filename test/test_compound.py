@@ -2,9 +2,9 @@ import unittest
 import pandas as pd
 import numpy as np
 
-from pychemkit.utils.utils import get_percentage
-from pychemkit.foundations.element import Element
-from pychemkit.foundations.compound import Compound
+from pychemkit.utils import get_percentage
+from pychemkit import Element
+from pychemkit import Compound
 
 
 class TestElementMethods(unittest.TestCase):
@@ -60,12 +60,16 @@ class TestElementMethods(unittest.TestCase):
         mass_h = [4.04, 6.06, 12.12, 16.16, 1.01]
         mass_o = [32, 16, 96, 0, 48]
 
-        expected_cpercent = [get_percentage(x, z) for x, z in zip(mass_c, self.mmass)]
-        expected_hpercent = [get_percentage(x, z) for x, z in zip(mass_h, self.mmass)]
+        expected_cpercent = [get_percentage(x, z)
+                             for x, z in zip(mass_c, self.mmass)]
+        expected_hpercent = [get_percentage(x, z)
+                             for x, z in zip(mass_h, self.mmass)]
         # expected_opercent = [get_percentage(x, z) for x, z in zip(self.mmass, mass_o)]
 
-        method_cpercent = [tc.get_element_percentage('C') for tc in self.test_compounds]
-        method_hpercent = [tc.get_element_percentage('H') for tc in self.test_compounds]
+        method_cpercent = [tc.get_element_percentage(
+            'C') for tc in self.test_compounds]
+        method_hpercent = [tc.get_element_percentage(
+            'H') for tc in self.test_compounds]
         # method_opercent = [tc.get_element_percentage('O') for tc in self.test_compounds]
 
         for i in range(4):

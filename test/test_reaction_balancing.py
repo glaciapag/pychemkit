@@ -1,5 +1,5 @@
 import unittest
-from pychemkit.stoich.reaction import SimpleChemicalReaction
+from pychemkit import SimpleChemicalReaction
 
 
 class TestSimpleChemicalReaction(unittest.TestCase):

@@ -15,7 +15,8 @@ class EmpiricalFormula:
             self._percentages = [mass for mass in kwargs.values()]
 
         self._total_compound_mass = np.sum(self._percentages)
-        self._normalized_percentages = [(p / self._total_compound_mass) * 100 for p in self._percentages]
+        self._normalized_percentages = [
+            (p / self._total_compound_mass) * 100 for p in self._percentages]
         self._components = self._get_components()
         self._formula = self._get_formula()
 
@@ -61,7 +62,8 @@ class EmpiricalFormula:
     @staticmethod
     def _get_min_mole_ratio(elem_mol_map):
         smallest_mol = np.min([v for v in elem_mol_map.values()])
-        moles = [np.round((e / smallest_mol), 0) for e in elem_mol_map.values()]
+        moles = [np.round((e / smallest_mol), 0)
+                 for e in elem_mol_map.values()]
         mole_fraction = [mol.as_integer_ratio() for mol in moles]
         for mole in mole_fraction:
             if mole[1] != 1:
@@ -121,11 +123,3 @@ class AqueousSolution:
     def get_molar_concentration(self, grams, liters):
         cpd_mole = self._compound.mass_to_moles(grams)
         return cpd_mole / liters
-
-if __name__ == '__main__':
-    ethanol = Compound('C2H5OH')
-    sol = AqueousSolution(ethanol)
-    print(sol.get_molar_concentration(2.30, 3.50))
-
-
-

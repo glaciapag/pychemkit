@@ -97,7 +97,8 @@ class Compound:
             elems_count_list.append([symb, num_elems])
 
         for elem in elems_count_list:
-            elems_count_map[elem[0]] = elems_count_map.get(elem[0], 0) + elem[1]
+            elems_count_map[elem[0]] = elems_count_map.get(
+                elem[0], 0) + elem[1]
 
         for elem, coeff in elems_count_map.items():
             elem_instance = Element(elem)
@@ -121,13 +122,3 @@ class Compound:
 
     def __repr__(self):
         return f'Compound({self._formula})'
-
-
-if __name__ == '__main__':
-    acetic_acid = Compound('CH3COOH')
-    print(acetic_acid.composition)
-    print(acetic_acid.get_element_percentage('H'))
-
-
-
-

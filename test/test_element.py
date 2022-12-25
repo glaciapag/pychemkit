@@ -1,5 +1,5 @@
 import unittest
-from pychemkit.foundations.element import Element
+from pychemkit import Element
 
 
 class TestElementMethods(unittest.TestCase):
@@ -35,7 +35,8 @@ class TestElementMethods(unittest.TestCase):
             self.assertEqual(elems.symbol, res[i])
 
     def test_name(self):
-        res = ['Hydrogen', 'Mercury', 'Cobalt', 'Rutherfordium', 'Radon', 'Lead', 'Calcium', 'Francium', 'Seaborgium', 'Praseodymium']
+        res = ['Hydrogen', 'Mercury', 'Cobalt', 'Rutherfordium', 'Radon',
+               'Lead', 'Calcium', 'Francium', 'Seaborgium', 'Praseodymium']
         for i, elems in enumerate(self.random_elements):
             self.assertEqual(elems.name, res[i])
 
@@ -50,7 +51,8 @@ class TestElementMethods(unittest.TestCase):
             self.assertEqual(elems.electrons, res[i])
 
     def test_atomic_mass(self):
-        res = [1.0080, 200.59, 58.93319, 267.122, 222.01758, 207, 40.08, 223.01973, 269.128, 140.90766]
+        res = [1.0080, 200.59, 58.93319, 267.122, 222.01758,
+               207, 40.08, 223.01973, 269.128, 140.90766]
         for i, elems in enumerate(self.random_elements):
             self.assertAlmostEqual(elems.atomic_mass, res[i], 2)
 
