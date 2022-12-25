@@ -78,7 +78,3 @@ class DBConn:
         db_path = os.path.join(root_path, db_file)
         _connection = sqlite3.connect(db_path)
         return _connection
-
-
-db = DBQuery('PUBCHEMDB')
-ELEMENTS_DATA = db.get_all_data('elements')
