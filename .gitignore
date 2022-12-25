@@ -3,3 +3,43 @@
 .DS_Store
 notebook/
 
+__pycache__/
+*.py[cod]
+
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info
+.installed.cfg
+*.egg
+
+pip-log.txt
+pip-delete-this-directory.text
+
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
