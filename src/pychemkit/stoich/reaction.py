@@ -62,7 +62,6 @@ class SimpleChemicalReaction:
         eq_mat = self.create_reaction_matrix()
         return solve_equation(eq_mat)
 
-
     @staticmethod
     def _get_elements_per_participants(component):
         elem_list = {}
@@ -76,7 +75,8 @@ class SimpleChemicalReaction:
         comp_list = [item for item in component.items()]
         elem_per_cpd = {}
         for comp in comp_list:
-            elem_per_cpd[comp[0]] = {el.symbol: coeff for el, coeff in comp[0].composition.items()}
+            elem_per_cpd[comp[0]] = {
+                el.symbol: coeff for el, coeff in comp[0].composition.items()}
         return elem_per_cpd
 
     @staticmethod
@@ -117,7 +117,8 @@ class SimpleChemicalReaction:
                 index += 1
             return updated_dict
         else:
-            raise TypeError('Number of coefficients must be equal to the number of compounds entered')
+            raise TypeError(
+                'Number of coefficients must be equal to the number of compounds entered')
 
     def __str__(self):
         return f'{self._stringify_reaction(self._reactants, self._react_coeff)} ==> {self._stringify_reaction(self._products, self._prod_coeff)}'
@@ -131,46 +132,23 @@ class SimpleChemicalReaction:
         for comp, elems_coeff in reacts.items():
             for elem in all_elems:
                 if elem in comp.formula:
-                    compound_matrix.append(['reactant', comp, elem, elems_coeff[elem]])
+                    compound_matrix.append(
+                        ['reactant', comp, elem, elems_coeff[elem]])
                 else:
                     compound_matrix.append(['reactant', comp, elem, 0])
 
         for comp, elems_coeff in prods.items():
             for elem in all_elems:
                 if elem in comp.formula:
-                    compound_matrix.append(['product', comp, elem, elems_coeff[elem]])
+                    compound_matrix.append(
+                        ['product', comp, elem, elems_coeff[elem]])
                 else:
                     compound_matrix.append(['product', comp, elem, 0])
 
-        matrix = pd.DataFrame(data=compound_matrix, columns=['role', 'compound', 'element', 'amount'])
-        matrix['amount'] = np.vectorize(determine_sign)(matrix['amount'], matrix['role'])
-        matrix_pivot = matrix.pivot(index='element', columns='compound', values='amount')
+        matrix = pd.DataFrame(data=compound_matrix, columns=[
+                              'role', 'compound', 'element', 'amount'])
+        matrix['amount'] = np.vectorize(determine_sign)(
+            matrix['amount'], matrix['role'])
+        matrix_pivot = matrix.pivot(
+            index='element', columns='compound', values='amount')
         return matrix_pivot.reset_index()
-
-
-if __name__ == '__main__':
-
-    reaction1 = SimpleChemicalReaction(
-        reactants=['KNO3', 'C'],
-        products=['K2CO3', 'CO', 'N2']
-    )
-
-    reaction2 = SimpleChemicalReaction(
-        reactants=['C6H6', 'O2'],
-        products=['CO2', 'H2O']
-    )
-
-    reaction3 = SimpleChemicalReaction(
-        reactants=['Al', 'O2'],
-        products=['Al2O3']
-    )
-
-    reaction4 = SimpleChemicalReaction(
-        reactants=['N2', '3H2'],
-        products=['2NH3']
-    )
-
-    print(reaction1.balance())
-    print(reaction2.balance())
-    print(reaction3.balance())
-    print(reaction4.balance())
