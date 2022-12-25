@@ -3,6 +3,7 @@
 .DS_Store
 notebook/
 
+!**/__pycache__/
 __pycache__/
 *.py[cod]
 
