@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os  }} # ubuntu-latest
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -17,12 +17,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Clean-up for operation was cancelled bug https://github.com/vmware/concord-bft/pull/994
-        run: |
-          sudo rm -rf /ust/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+#      - name: Clean-up for operation was cancelled bug https://github.com/vmware/concord-bft/pull/994
+#        run: |
+#          sudo rm -rf /ust/share/dotnet
+#          sudo rm -rf /opt/ghc
+#          sudo rm -rf "/usr/local/share/boost"
+#          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Install dependencies
         run: |
@@ -32,3 +32,5 @@ jobs:
       - name: Run Test
         run: |
           python -m unittest discover -s ./test
+    
+      
