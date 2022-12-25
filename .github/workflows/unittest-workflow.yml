@@ -1,0 +1,15 @@
+name: Python Unit Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+        run: |
+          python -m unittest discover -s ./test
