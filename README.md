@@ -1,19 +1,17 @@
-# Pychemkit
-
----
-
-A simple python package for general chemistry calculations and modeling
-
----
+# Pychemkit 🧪
 
 ![Tests](https://github.com/glaciapag/pychemkit/actions/workflows/unittest-workflow.yml/badge.svg)
-
-## Foundations
-
+---
+A simple python package for general chemistry calculations and modelling
+- Create elements, compounds, and other chemical entities
+- Create and balance simple chemical reactions
+- Compute empirical and molecular formulas
+- Perform Simple stoichiometric calculations
+---
+## Get Started
 ### Elements
-
 ```python
-from pychemkit.foundations.element import Element
+from pychemkit import Element
 
 hydrogen = Element('H')
 print(hydrogen.atomic_mass) # 1.001
@@ -21,9 +19,8 @@ print(hydrogen.electrons) # 1
 ```
 
 ### Compounds
-
 ```python
-from pychemkit.foundations.compound import Compound
+from pychemkit import Compound
 
 acetic_acid = Compound('CH3COOH')
 print(acetic_acid.composition) # {Element('C'): 2, Element('H'): 4, Element('O'): 2}
@@ -31,9 +28,8 @@ print(acetic_acid.get_element_percentage('C')) # 20.000
 ```
 
 ### Basic stoichiometric calculations
-
 ```python
-from pychemkit.foundations.compound import Compound
+from pychemkit import Compound
 
 #Initialize
 glucose = Compound('C6H12O6')
@@ -52,7 +48,7 @@ print(grams_glucose) # 450.39
 ### Calculating Empirical and Molecular Formulas
 
 ```python
-from pychemkit.stoich.experimental import EmpiricalFormula, MolecularFormula
+from pychemkit import EmpiricalFormula, MolecularFormula
 
 elems = 'CHONNa'
 percentages = [35.51, 4.77, 37.85, 8.29, 13.60]
@@ -63,7 +59,7 @@ print(msg.em_formula)
 ### Balancing Chemical Equation
 
 ```python
-from pychemkit.stoich.reaction import SimpleChemicalReaction
+from pychemkit import SimpleChemicalReaction
 
 water_formation = SimpleChemicalReaction(
     reactants=['H2', 'O2'],
@@ -74,16 +70,17 @@ print(water_formation.balance()) # [1, 2, 2]
 ```
 
 ---
-
 ## Installation
 
-### Mac/Linux
+### Linux / Mac 
 
 ```commandline
 mkdir dirname
 cd dirname
+
 python3 -m venv env
 source env/bin/activate
+
 git clone https://github.com/glaciapag/pychemkit.git .
 pip install -e .
 ```
@@ -93,8 +90,10 @@ pip install -e .
 ```powershell
 mkdir dirname
 cd dirname
+
 python -m venv env
 env\Scripts\activate.bat
+
 git clone https://github.com/glaciapag/pychemkit.git .
 pip install -e .
 ```
@@ -102,6 +101,8 @@ pip install -e .
 ## Testing
 
 ```commandline
-$ cd test
-$ python -m unittest
+python -m unittest discover -s ./test
 ```
+
+## Contribution Guidelines
+As of now I'm the sole contributor but please contact me if you like to contribute or learn more [email here](mailto:glenn.laciapag@gmail.com)
