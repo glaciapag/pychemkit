@@ -2,9 +2,11 @@
 
 ---
 
-### A simple python package for general chemistry calculations and modeling
+A simple python package for general chemistry calculations and modeling
 
 ---
+
+![Tests](https://github.com/glaciapag/pychemkit/actions/workflows/unittest-workflow.yml/badge.svg)
 
 ## Foundations
 
@@ -78,23 +80,23 @@ print(water_formation.balance()) # [1, 2, 2]
 ### Mac/Linux
 
 ```commandline
-$ mkdir dirname
-$ cd dirname
-$ python3 -m venv env
-$ source env/bin/activate
-$ git clone https://github.com/glaciapag/pychemkit.git .
-$ pip install -e .
+mkdir dirname
+cd dirname
+python3 -m venv env
+source env/bin/activate
+git clone https://github.com/glaciapag/pychemkit.git .
+pip install -e .
 ```
 
 ### Windows
 
 ```powershell
-$ mkdir dirname
-$ cd dirname
-$ python -m venv env
-$ env\Scripts\activate.bat
-$ git clone https://github.com/glaciapag/pychemkit.git .
-$ pip install -e .
+mkdir dirname
+cd dirname
+python -m venv env
+env\Scripts\activate.bat
+git clone https://github.com/glaciapag/pychemkit.git .
+pip install -e .
 ```
 
 ## Testing
