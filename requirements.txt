@@ -3,6 +3,7 @@
 # platform: osx-64
 beautifulsoup4=4.11.1
 flask=2.1.2
+matplotlib=3.6.2
 numpy=1.21.4
 pandas=1.4.2
 pip=22.1.1
