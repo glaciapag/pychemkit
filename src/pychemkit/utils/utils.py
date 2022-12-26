@@ -134,24 +134,48 @@ def separate_compound_coeff(compound_list: List[str]) -> Dict:
 
 
 def listify_strings(str_list_input: Union[str, List[str]]) -> List[str]:
+    """
+    Returns a list with the original string input as element
+    e.g., 'FOO' -> ['FOO']
+    :param str_list_input:
+    :return: [str_list_input]
+    """
     if isinstance(str_list_input, str):
         return [str_list_input]
     elif isinstance(str_list_input, list):
         return str_list_input
 
 
-def determine_sign(amount, participation):
+def determine_sign(amount: float, participation: str) -> float:
+    """
+    Determines the sign. Negative for 'product'
+    positive for 'reactants'
+    :param amount:
+    :param participation:
+    :return: amount * participation sign
+    """
     if participation == 'product':
         return amount * -1
     else:
         return amount
 
 
-def get_percentage(x, y):
+def get_percentage(x: float, y: float) -> float:
+    """
+    Computes percentage
+    :param x:
+    :param y:
+    :return: percentage
+    """
     return x / y * 100
 
 
-def solve_equation(rm: pd.DataFrame) -> List[Fraction]:
+def solve_equation(rm: pd.DataFrame) -> Union[List[Fraction], str]:
+    """
+    Solves the matrix equation for balancing
+    :param rm: Reaction matrix in the form of a DataFrame
+    :return: list of coefficients per compound / element
+    """
     mat = rm.iloc[:, 1:].to_numpy()
     mat = sp.Matrix(mat)
     solutions = list(sp.linsolve(mat).args[0])
