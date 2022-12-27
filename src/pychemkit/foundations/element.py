@@ -60,9 +60,3 @@ class Element:
 
     def __repr__(self):
         return f"Element('{self._symbol}')"
-
-
-if __name__ == '__main__':
-    h1 = Element('H')
-    h2 = Element('H')
-    print(h1 == h2)
