@@ -2,7 +2,7 @@ import json
 import os
 
 from pychemkit.database.engine import DBQuery
-from pychemkit.resources.pubchem_data import ELEMENTS_DATA
+from pychemkit._resources.pubchem_data import ELEMENTS_DATA
 
 
 def create_and_populate_db(db_name, table_name, data):
