@@ -29,10 +29,12 @@ class TestElementMethods(unittest.TestCase):
             promethium
         ]
 
+
     def test_symbol(self):
         res = ['H', 'Hg', 'Co', 'Rf', 'Rn', 'Pb', 'Ca', 'Fr', 'Sg', 'Pr']
         for i, elems in enumerate(self.random_elements):
             self.assertEqual(elems.symbol, res[i])
+
 
     def test_name(self):
         res = ['Hydrogen', 'Mercury', 'Cobalt', 'Rutherfordium', 'Radon',
@@ -40,15 +42,18 @@ class TestElementMethods(unittest.TestCase):
         for i, elems in enumerate(self.random_elements):
             self.assertEqual(elems.name, res[i])
 
+
     def test_electrons(self):
         res = [1, 80, 27, 104, 86, 82, 20, 87, 106, 59]
         for i, elems in enumerate(self.random_elements):
             self.assertEqual(elems.electrons, res[i])
 
+
     def test_protons(self):
         res = [1, 80, 27, 104, 86, 82, 20, 87, 106, 59]
         for i, elems in enumerate(self.random_elements):
             self.assertEqual(elems.electrons, res[i])
+
 
     def test_atomic_mass(self):
         res = [1.0080, 200.59, 58.93319, 267.122, 222.01758,
@@ -56,10 +61,23 @@ class TestElementMethods(unittest.TestCase):
         for i, elems in enumerate(self.random_elements):
             self.assertAlmostEqual(elems.atomic_mass, res[i], 2)
 
+
     def test_neutrons(self):
         res = [0, 121, 32, 157, 136, 125, 20, 136, 157, 82]
         for i, elems in enumerate(self.random_elements):
             self.assertAlmostEqual(elems.neutrons, res[i], delta=4)
+
+
+    def test_element_equality(self):
+
+        new_elems = []
+
+        for elem in self.random_elements:
+            new_elem_instance = Element(elem.symbol)
+            new_elems.append(new_elem_instance)
+
+        for elem1, elem2 in zip(self.random_elements, new_elems):
+            self.assertEqual(elem1, elem2)
 
 
 if __name__ == '__main__':
