@@ -27,7 +27,7 @@ class Element:
         self._boiling_point = self.filter_column('boiling_point')
         self._density = self.filter_column('density')
         self._group_block = self.filter_column('group_block')
-        self._year_discovered = self._year_discovered('year_discovered')
+        self._year_discovered = self.filter_column('year_discovered')
 
     def __eq__(self, other):
         return self.symbol == other.symbol
