@@ -1,4 +1,4 @@
-from pychemkit.database.loader import ELEMENTS_DATA
+from pychemkit.data.loader import ELEMENTS_DATA
 from pychemkit.utils.utils import is_number
 
 

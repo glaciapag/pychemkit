@@ -5,10 +5,10 @@ import json
 import pandas as pd
 from sqlalchemy import create_engine
 
-from pychemkit.database import DATABASE_ROOT
-from pychemkit.database.queries import PUBCHEM_ELEMENTS_FIELD
+from pychemkit.engine import DATABASE_ROOT
+from pychemkit.engine.queries import PUBCHEM_ELEMENTS_FIELD
 from pychemkit.utils.utils import get_query_string
-from pychemkit.database.queries import Queries
+from pychemkit.engine.queries import Queries
 
 
 class DBQuery:

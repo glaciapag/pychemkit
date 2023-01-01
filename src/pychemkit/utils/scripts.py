@@ -1,7 +1,7 @@
 import json
 import os
 
-from pychemkit.database.engine import DBQuery
+from pychemkit.engine.conn import DBQuery
 from pychemkit._resources.pubchem_data import ELEMENTS_DATA
 
 
