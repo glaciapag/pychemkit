@@ -77,6 +77,17 @@ class TestElementMethods(unittest.TestCase):
             self.assertAlmostEqual(expected_hpercent[i], method_hpercent[i], 1)
             self.assertAlmostEqual(expected_cpercent[i], method_cpercent[i], 1)
 
+    def test_compound_equality(self):
+
+        new_instance_compounds = []
+
+        for compound in self.test_compounds:
+            new_compound = Compound(compound.formula)
+            new_instance_compounds.append(new_compound)
+
+        for cpd1, cpd2 in zip(self.test_compounds, new_instance_compounds):
+            self.assertEqual(cpd1, cpd2)
+
 
 if __name__ == '__main__':
     unittest.main()

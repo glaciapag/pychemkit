@@ -122,3 +122,10 @@ class Compound:
 
     def __repr__(self):
         return f'Compound({self._formula})'
+
+    def __eq__(self, other):
+        return self._composition == other._composition
+
+    def __hash__(self):
+        return hash(str(self))
+        
