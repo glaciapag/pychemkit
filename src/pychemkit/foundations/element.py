@@ -10,24 +10,24 @@ class Element:
         self._symbol = symbol
         self._symbol_filter = self.elements_data['symbol'] == symbol
 
-        self._name = self.filter_column('element_name')
-        self._electrons = self.filter_column('num_electrons')
-        self._protons = self.filter_column('num_protons')
-        self._neutrons = self.filter_column('num_neutrons')
-        self._atomic_mass = self.filter_column('atomic_mass')
-        self._electron_configuration = self.filter_column(
+        self._name = self._filter_column('element_name')
+        self._electrons = self._filter_column('num_electrons')
+        self._protons = self._filter_column('num_protons')
+        self._neutrons = self._filter_column('num_neutrons')
+        self._atomic_mass = self._filter_column('atomic_mass')
+        self._electron_configuration = self._filter_column(
             'electron_configuration')
-        self._electronegativity = self.filter_column('electronegativity')
-        self._atomic_radius = self.filter_column('atomic_radius')
-        self._ionization_energy = self.filter_column('ionization_energy')
-        self._electron_affinity = self.filter_column('electron_affinity')
-        self._oxidation_states = self.filter_column('oxidation_states')
-        self._standard_states = self.filter_column('standard_state')
-        self._melting_point = self.filter_column('melting_point')
-        self._boiling_point = self.filter_column('boiling_point')
-        self._density = self.filter_column('density')
-        self._group_block = self.filter_column('group_block')
-        self._year_discovered = self.filter_column('year_discovered')
+        self._electronegativity = self._filter_column('electronegativity')
+        self._atomic_radius = self._filter_column('atomic_radius')
+        self._ionization_energy = self._filter_column('ionization_energy')
+        self._electron_affinity = self._filter_column('electron_affinity')
+        self._oxidation_states = self._filter_column('oxidation_states')
+        self._standard_states = self._filter_column('standard_state')
+        self._melting_point = self._filter_column('melting_point')
+        self._boiling_point = self._filter_column('boiling_point')
+        self._density = self._filter_column('density')
+        self._group_block = self._filter_column('group_block')
+        self._year_discovered = self._filter_column('year_discovered')
 
     def __eq__(self, other):
         return self.symbol == other.symbol
@@ -35,7 +35,7 @@ class Element:
     def __hash__(self):
         return hash(str(self))
 
-    def filter_column(self, prop):
+    def _filter_column(self, prop):
         return self.elements_data.loc[self._symbol_filter, prop].values[0]
 
     @property
