@@ -1,6 +1,6 @@
 from pychemkit.data import ELEMENTS_DATA
 from pychemkit.utils.utils import is_number
-from pychemkit.core.exceptions import NotAValidElementException
+from pychemkit.exceptions import NotAValidElementException
 
 
 class Element:

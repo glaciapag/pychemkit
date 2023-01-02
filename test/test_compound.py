@@ -5,6 +5,7 @@ import numpy as np
 from pychemkit.utils import get_percentage
 from pychemkit import Element
 from pychemkit import Compound
+from pychemkit.exceptions import NotAValidCompoundException
 
 
 class TestElementMethods(unittest.TestCase):
@@ -45,6 +46,12 @@ class TestElementMethods(unittest.TestCase):
             self.assertEqual(h_count, expected_hcounts[index])
             self.assertEqual(c_count, expected_ccounts[index])
             self.assertEqual(o_count, expected_ocounts[index])
+
+    def test_invalid_compounds(self):
+
+        self.assertRaises(NotAValidCompoundException, Compound, 'NAOH')
+        self.assertRaises(NotAValidCompoundException, Compound, 'HGA')
+        self.assertRaises(NotAValidCompoundException, Compound, 'AL')
 
     def test_mass_to_moles(self):
         mass_test_grams = [128, 150, 400, 0.4, 10.9]

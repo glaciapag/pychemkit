@@ -2,7 +2,7 @@ import re
 from pychemkit.foundations.element import Element
 from pychemkit.utils.utils import get_elements_array, is_number, get_percentage
 from pychemkit.foundations.constants import AVOGADRO_NUM
-from pychemkit.core.exceptions import NotAValidElementException, NotAValidCompoundException
+from pychemkit.exceptions import NotAValidElementException, NotAValidCompoundException
 
 
 class Compound:
