@@ -1,5 +1,6 @@
 from pychemkit.data import ELEMENTS_DATA
 from pychemkit.utils.utils import is_number
+from pychemkit.core.exceptions import NotAValidElementException
 
 
 class Element:
@@ -36,7 +37,10 @@ class Element:
         return hash(str(self))
 
     def _filter_column(self, prop):
-        return self.elements_data.loc[self._symbol_filter, prop].values[0]
+        try:
+            return self.elements_data.loc[self._symbol_filter, prop].values[0]
+        except IndexError:
+            raise NotAValidElementException(f'{self.symbol} is not a valid Element')
 
     @property
     def symbol(self):

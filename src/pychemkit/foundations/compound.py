@@ -2,13 +2,17 @@ import re
 from pychemkit.foundations.element import Element
 from pychemkit.utils.utils import get_elements_array, is_number, get_percentage
 from pychemkit.foundations.constants import AVOGADRO_NUM
+from pychemkit.core.exceptions import NotAValidElementException, NotAValidCompoundException
 
 
 class Compound:
 
     def __init__(self, formula_str):
         self._formula = formula_str
-        self._composition = self.parse_formula()
+        try:
+            self._composition = self._parse_formula()
+        except NotAValidCompoundException as e:
+            raise NotAValidCompoundException(f'{formula_str} is {e}')
 
     @property
     def formula(self):
@@ -17,6 +21,10 @@ class Compound:
     @property
     def composition(self):
         return self._composition
+
+    @property
+    def molecular_mass(self):
+        return self._get_molecular_mass()
 
     def mass_to_moles(self, mass):
         if is_number(mass):
@@ -60,7 +68,7 @@ class Compound:
 
     def _get_molecular_mass(self):
         mass = 0
-        for elem, coeff in self._composition.items():
+        for elem, coeff in self.composition.items():
             mass += (elem.atomic_mass * coeff)
         return mass
 
@@ -77,7 +85,7 @@ class Compound:
         else:
             return 'Enter a valid mass in grams'
 
-    def parse_formula(self):
+    def _parse_formula(self):
         elems_array = get_elements_array(self._formula)
         elems_count_list = []
         elems_count_map = {}
@@ -101,15 +109,18 @@ class Compound:
                 elem[0], 0) + elem[1]
 
         for elem, coeff in elems_count_map.items():
-            elem_instance = Element(elem)
-            elementified_map[elem_instance] = coeff
+            try:
+                elem_instance = Element(elem)
+                elementified_map[elem_instance] = coeff
+            except NotAValidElementException:
+                raise NotAValidCompoundException('not a valid Compound')
 
         return elementified_map
 
     def get_element_percentage(self, element):
         element = Element(element)
         coeff = self.composition.get(element)
-        compound_elements = [elem for elem in list(self._composition.keys())]
+        compound_elements = [elem for elem in list(self.composition.keys())]
         if element in compound_elements:
             compound_mass = self._get_molecular_mass()
             element_mass = element.atomic_mass * coeff
@@ -124,7 +135,7 @@ class Compound:
         return f'Compound({self._formula})'
 
     def __eq__(self, other):
-        return self._composition == other._composition
+        return self.composition == other.composition
 
     def __hash__(self):
         return hash(str(self))
