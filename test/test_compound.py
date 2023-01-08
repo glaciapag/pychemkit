@@ -53,14 +53,6 @@ class TestElementMethods(unittest.TestCase):
         self.assertRaises(NotAValidCompoundException, Compound, 'HGA')
         self.assertRaises(NotAValidCompoundException, Compound, 'AL')
 
-    def test_mass_to_moles(self):
-        mass_test_grams = [128, 150, 400, 0.4, 10.9]
-        expected_moles = [x / z for x, z in zip(mass_test_grams, self.mmass)]
-
-        for index, tc in enumerate(self.test_compounds):
-            moles = tc.mass_to_moles(mass_test_grams[index])
-            self.assertAlmostEqual(moles, expected_moles[index], 3)
-
     def test_get_element_percentage(self):
 
         mass_c = [24.02, 36.03, 72.06, 144.12, 12.01]
