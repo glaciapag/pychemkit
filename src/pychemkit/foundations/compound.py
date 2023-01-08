@@ -26,20 +26,6 @@ class Compound:
     def molecular_mass(self):
         return self._get_molecular_mass()
 
-    def mass_to_moles(self, mass):
-        if is_number(mass):
-            return mass / self._get_molecular_mass()
-        else:
-            return 'Enter a valid mass in grams'
-
-    def mass_to_atoms(self, mass):
-        if is_number(mass):
-            moles = self._get_moles(mass)
-            atoms = self.moles_to_atoms(moles)
-            return atoms
-        else:
-            return 'Enter a valid mass in grams'
-
     def moles_to_mass(self, moles):
         if is_number(moles):
             return moles * self._get_molecular_mass()
