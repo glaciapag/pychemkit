@@ -41,7 +41,7 @@ class EmpiricalFormula:
     def _get_components(self):
         elem_percentages_map = {}
         elem_components = {}
-        for index, (elem, coeff) in enumerate(self._compound.parse_formula().items()):
+        for index, (elem, coeff) in enumerate(self._compound._parse_formula().items()):
             mole = (coeff * self._percentages[index]) / elem.atomic_mass
             elem_percentages_map[elem] = mole
 
